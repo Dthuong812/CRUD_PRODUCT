@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import ProductForm from '../components/product/ProductForm'
 import ProductData from '../components/product/ProductData'
+import SearchProduct from '../components/product/SearchProduct'
 
 
 const Product = () => {
     const dataProduct = JSON.parse(localStorage.getItem("productData"))
     const [productData, setProductData] = useState(dataProduct)
+    const [filteredData, setFilteredData] = useState(productData);
     useEffect(() => {
         localStorage.setItem("productData", JSON.stringify(productData));
+        setFilteredData(productData);
     }, [productData]);
     const addProduct = (newProduct) => {
         const product = {
@@ -35,10 +38,23 @@ const Product = () => {
           )
       );
   };
+  const handleSearch = (keyword) => {
+    if (keyword.trim() === "") {
+        setFilteredData(productData); 
+    } else {
+        const filtered = productData.filter((item) =>
+            item.name.toLowerCase().includes(keyword.toLowerCase())
+        );
+        setFilteredData(filtered);
+    }
+};
     return (
         <div>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between" }}>
+            <SearchProduct onSearch={handleSearch}></SearchProduct>
             <ProductForm addProduct={addProduct}></ProductForm>
-            <ProductData productData={productData} deleteProduct= {deleteProduct} handleUpdateProduct={handleUpdateProduct}></ProductData>
+            </div>
+            <ProductData productData={filteredData} deleteProduct= {deleteProduct} handleUpdateProduct={handleUpdateProduct}></ProductData>
         </div>
     )
 }
