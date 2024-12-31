@@ -24,10 +24,14 @@ const Product = () => {
     const randomIntFromInterval = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+    const deleteProduct =(id)=>{
+      const newProduct = productData.filter(item =>item.id !== id)
+      setProductData(newProduct)
+    }
     return (
         <div>
             <ProductForm addProduct={addProduct}></ProductForm>
-            <ProductData productData={productData} ></ProductData>
+            <ProductData productData={productData} deleteProduct= {deleteProduct}></ProductData>
         </div>
     )
 }

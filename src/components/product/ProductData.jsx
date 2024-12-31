@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { Popconfirm, Space, Table, Tag } from 'antd';
 import { DeleteOutlined,EditOutlined  } from '@ant-design/icons';
 const ProductData = (props) => {
-  const {productData} = props
-  
+  const {productData, deleteProduct} = props
+  const handleDelete = (id)=>{
+    deleteProduct(id)
+  }
   const columns = [
     {
       title: 'STT',
@@ -35,9 +37,9 @@ const ProductData = (props) => {
          <EditOutlined onClick={()=>{
          }} style={{cursor:"pointer",color:"orange"}}/>
          <Popconfirm
-            title="Delete user "
-            description="Are you sure to delete product ?"
-            onConfirm={()=>handleDeleteUser(record._id)}
+            title="Delete product "
+            description="Are you sure to delete product?"
+            onConfirm={()=>handleDelete(record.id)}
             okText="Yes"
             cancelText="No"
             placement='left'
