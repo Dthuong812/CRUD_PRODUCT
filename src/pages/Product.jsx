@@ -1,27 +1,35 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import ProductForm from '../components/product/ProductForm'
+import ProductData from '../components/product/ProductData'
 
 
 const Product = () => {
-  const [productData,setProductData]= useState([])
-  const addProduct = (newProduct)=>{
-    const product= {
-      id: randomIntFromInterval(1,333333),
-      name:newProduct.name,
-      price:newProduct.price
+    const dataProduct = JSON.parse(localStorage.getItem("productData"))
+    const [productData, setProductData] = useState(dataProduct)
+    useEffect(() => {
+        localStorage.setItem("productData", JSON.stringify(productData));
+    }, [productData]);
+    const addProduct = (newProduct) => {
+        const product = {
+            id: randomIntFromInterval(1, 333333),
+            name: newProduct.name,
+            price: newProduct.price
+        }
+        console.log(product)
+        setProductData((prevData) => [
+            ...prevData,
+            product
+        ]);
     }
-    console.log(product)
-    setProductData((prevData) => [...prevData, product]);
-  }
-  const randomIntFromInterval =(min,max)=>{
-    return Math.floor(Math.random()*(max-min+1)+min);
-  }
-  return (
-    <div>
-        <ProductForm addProduct= {addProduct}></ProductForm>
-
-    </div>
-  )
+    const randomIntFromInterval = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    return (
+        <div>
+            <ProductForm addProduct={addProduct}></ProductForm>
+            <ProductData productData={productData} ></ProductData>
+        </div>
+    )
 }
 
 export default Product
