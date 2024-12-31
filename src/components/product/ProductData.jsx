@@ -9,6 +9,10 @@ const ProductData = (props) => {
     const [dataUpdate, setDataUpdate] = useState(null)
     const [isDetailOpen, setDetailOpen] = useState(false)
     const [dataDetail, setDataDetail] = useState(null)
+    const [pagination, setPagination] = useState({
+      current: 1,
+      pageSize: 10
+  });
     const handleDelete = (id) => {
         deleteProduct(id)
     }
@@ -17,7 +21,11 @@ const ProductData = (props) => {
             title: 'STT',
             dataIndex: '',
             key: 'stt',
-            render: (_, __, index) => index + 1
+            render: (_, __, index) => {
+              const currentPage = pagination.current || 1; 
+              const pageSize = pagination.pageSize || 10; 
+              return (currentPage - 1) * pageSize + index + 1;
+          }
         },
         {
             title: 'Id',
@@ -89,7 +97,14 @@ const ProductData = (props) => {
             {padding: "30px"}
         }>
             <Table columns={columns}
-                dataSource={productData}/>
+                dataSource={productData}
+                pagination={{
+                    pageSize: 10, 
+                    onChange: (page, pageSize) => {
+                    setPagination({ current: page, pageSize });
+        }
+    }}
+                />
             <ProductUpdate isModalUpdateOpen={isModalUpdateOpen}
                 setModalUpdateOpen={setModalUpdateOpen}
                 dataUpdate={dataUpdate}
