@@ -28,10 +28,17 @@ const Product = () => {
       const newProduct = productData.filter(item =>item.id !== id)
       setProductData(newProduct)
     }
+    const handleUpdateProduct = (updatedProduct) => {
+      setProductData((prevData) =>
+          prevData.map((product) =>
+              product.id === updatedProduct.id ? updatedProduct : product
+          )
+      );
+  };
     return (
         <div>
             <ProductForm addProduct={addProduct}></ProductForm>
-            <ProductData productData={productData} deleteProduct= {deleteProduct}></ProductData>
+            <ProductData productData={productData} deleteProduct= {deleteProduct} handleUpdateProduct={handleUpdateProduct}></ProductData>
         </div>
     )
 }
