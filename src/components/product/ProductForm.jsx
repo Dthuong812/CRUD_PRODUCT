@@ -12,8 +12,12 @@ const ProductForm = (props) => {
     };
 
     const handleOk = () => {
-        if (productNew.name.trim() === "" || productNew.price <= 0) {
-            message.warning("Please enter a valid product name and price!");
+        if (!productNew.name.trim()) {
+            message.warning("Vui lòng nhập ");
+            return;
+        }
+        if (isNaN(productNew.price) || productNew.price <= 0) {
+            message.warning("Số dương!");
             return;
         }
         addProduct(productNew);

@@ -35,12 +35,14 @@ const ProductData = (props) => {
         {
             title: 'Name',
             dataIndex: 'name',
-            key: 'name'
+            key: 'name',
+            sorter: (a, b) => a.name.length - b.name.length,
         },
         {
             title: 'Price',
             dataIndex: 'price',
-            key: 'price'
+            key: 'price',
+            sorter: (a, b) => a.price - b.price,
         }, {
             title: 'Action',
             key: 'action',
