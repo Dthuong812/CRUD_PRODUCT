@@ -2,10 +2,13 @@ import React, {useState} from 'react'
 import {Popconfirm, Space, Table, Tag} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import ProductUpdate from './ProductUpdate';
+import ProductShow from './ProductShow';
 const ProductData = (props) => {
-    const {productData, deleteProduct,handleUpdateProduct} = props
+    const {productData, deleteProduct, handleUpdateProduct} = props
     const [isModalUpdateOpen, setModalUpdateOpen] = useState(false)
     const [dataUpdate, setDataUpdate] = useState(null)
+    const [isDetailOpen, setDetailOpen] = useState(false)
+    const [dataDetail, setDataDetail] = useState(null)
     const handleDelete = (id) => {
         deleteProduct(id)
     }
@@ -20,7 +23,14 @@ const ProductData = (props) => {
             title: 'Id',
             dataIndex: 'id',
             key: 'id',
-            render: (text) => <a>{text}</a>
+            render: (_,record)=>{
+              return (
+                <a onClick={()=>{
+                  setDataDetail(record)
+                  setDetailOpen(true)
+                }}>{record.id}</a>
+              )
+            }
         },
         {
             title: 'Name',
@@ -82,6 +92,10 @@ const ProductData = (props) => {
                 setModalUpdateOpen={setModalUpdateOpen}
                 dataUpdate={dataUpdate}
                 handleUpdateProduct={handleUpdateProduct}></ProductUpdate>
+            <ProductShow isDetailOpen={isDetailOpen}
+                setDetailOpen={setDetailOpen}
+                dataDetail={dataDetail}
+                setDataDetail={setDataDetail}></ProductShow>
         </div>
     )
 }
